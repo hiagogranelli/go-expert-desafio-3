@@ -1,0 +1,40 @@
+# Removida a linha 'version: '3.8'' daqui
+
+services:
+  app:
+    build: .
+    container_name: order_service_app
+    ports:
+      - "8080:8080"
+      - "50051:50051"
+    environment:
+      - DATABASE_URL=postgresql://user:password@db:5432/ordersdb?sslmode=disable
+      - WEB_SERVER_PORT=8080
+      - GRPC_SERVER_PORT=50051
+      - GRAPHQL_SERVER_PATH=/query
+    depends_on:
+      db:
+        condition: service_healthy
+    volumes:
+      - ./internal/infra/database/migrations:/app/migrations
+
+  db:
+    image: postgres:15-alpine
+    container_name: order_service_db
+    restart: always
+    environment:
+      - POSTGRES_USER=user
+      - POSTGRES_PASSWORD=password
+      - POSTGRES_DB=ordersdb
+    ports:
+      - "5432:5432"
+    volumes:
+      - pg_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U user -d ordersdb"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+volumes:
+  pg_data:

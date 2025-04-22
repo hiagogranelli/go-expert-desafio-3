@@ -1,0 +1,54 @@
+# Where are all the schema files located? globs are supported eg  src/**/*.graphqls
+schema:
+  - api/graphql/schema.graphqls # Ajuste o path se necessário
+
+# Where should the generated server code go?
+exec:
+  layout: follow-schema
+  dir: internal/infra/graphql/graph # Diretório para código gerado
+  package: graph                   # Pacote para código gerado
+
+# Where should any generated models go?
+model:
+  filename: internal/infra/graphql/graph/models_gen.go # Arquivo para modelos gerados
+  package: graph                   # Pacote para modelos gerados (mesmo do exec)
+
+# Where should the resolver implementations go?
+resolver:
+  layout: single-file
+  dir: internal/infra/graphql/graph # Diretório para seus resolvers
+  package: graph                   # Pacote para seus resolvers
+  filename: resolver.go            # Nome do arquivo principal do resolver
+  type: Resolver                   # Nome da struct do resolver
+
+# Optional: turn on use `gqlgen:"fieldName"` tags in your models
+# struct_tag: json
+
+# Optional: turn on to use []Thing instead of []*Thing
+# omit_slice_element_pointers: false
+
+# Optional: set to speed up generation time by not performing a final validation pass.
+# skip_validation: true
+
+# gqlgen will search for any type names in the schema in these go packages
+# interface_resolvers: true # Descomente se usar interfaces no schema
+autobind:
+  # ATENÇÃO: Substitua 'desafio-cleanarchitecture' pelo path real do seu módulo Go se for diferente
+  - "desafio-cleanarchitecture/internal/infra/graphql/graph"
+
+# This section declares type mapping between the GraphQL and go type systems
+models:
+  ID:
+    model:
+      - github.com/99designs/gqlgen/graphql.ID
+      - github.com/99designs/gqlgen/graphql.Int
+      - github.com/99designs/gqlgen/graphql.Int64
+      - github.com/99designs/gqlgen/graphql.Int32
+  Int:
+    model:
+      - github.com/99designs/gqlgen/graphql.Int
+      - github.com/99designs/gqlgen/graphql.Int64
+      - github.com/99designs/gqlgen/graphql.Int32
+  # --- REMOVIDO/COMENTADO O MAPEAMENTO EXPLÍCITO PARA Order ---
+  # Order:
+  #    model: desafio-cleanarchitecture/internal/infra/graphql/graph.Order

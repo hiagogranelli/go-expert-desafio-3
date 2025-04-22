@@ -1,0 +1,41 @@
+@baseUrl = http://localhost:8080
+
+### Create Order (REST)
+# @name createOrderRest
+POST {{baseUrl}}/order
+Content-Type: application/json
+
+{
+  "price": 150.75,
+  "tax": 15.00
+}
+
+### List Orders (REST)
+# @name listOrdersRest
+GET {{baseUrl}}/order
+Accept: application/json
+
+### List Orders (GraphQL)
+# @name listOrdersGraphQL
+POST {{baseUrl}}/query
+Content-Type: application/json
+
+{
+  "query": "query { listOrders { id price tax finalPrice } }"
+}
+
+### Create Order (GraphQL)
+# @name createOrderGraphQL
+POST {{baseUrl}}/query
+Content-Type: application/json
+
+{
+  "query": "mutation CreateOrder($input: CreateOrderInput!) { createOrder(input: $input) { id price tax finalPrice } }",
+  "variables": {
+    "input": {
+      "price": 200.50,
+      "tax": 20.00
+    }
+  }
+}
+

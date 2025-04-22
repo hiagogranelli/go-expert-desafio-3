@@ -1,0 +1,25 @@
+type Order {
+  id: ID!
+  price: Float!
+  tax: Float!
+  finalPrice: Float! # Nome diferente do DB/gRPC (camelCase)
+  # createdAt: String! # Adicionar se necessário
+  # updatedAt: String! # Adicionar se necessário
+}
+
+# Input para criação (para popular dados)
+input CreateOrderInput {
+  price: Float!
+  tax: Float!
+}
+
+type Query {
+  listOrders: [Order!]!
+}
+
+type Mutation {
+  createOrder(input: CreateOrderInput!): Order!
+}
+
+# Necessário para gqlgen
+scalar Time

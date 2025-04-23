@@ -8,7 +8,6 @@ message Order {
     float price = 2;
     float tax = 3;
     float final_price = 4;
-    // Considerar usar google.protobuf.Timestamp para datas
 }
 
 message CreateOrderRequest {
@@ -21,7 +20,6 @@ message CreateOrderResponse {
 }
 
 message ListOrdersRequest {
-    // Pode adicionar paginação/filtros aqui no futuro
 }
 
 message ListOrdersResponse {

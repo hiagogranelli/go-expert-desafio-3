@@ -21,7 +21,6 @@ func NewOrder(price, tax float64) (*Order, error) {
 		ID:    uuid.New().String(),
 		Price: price,
 		Tax:   tax,
-		// CreatedAt e UpdatedAt serão definidos pelo DB ou na criação
 	}
 	err := order.Validate()
 	if err != nil {
@@ -38,7 +37,7 @@ func (o *Order) Validate() error {
 	if o.Price <= 0 {
 		return errors.New("price must be positive")
 	}
-	if o.Tax < 0 { // Taxa pode ser zero
+	if o.Tax < 0 {
 		return errors.New("tax cannot be negative")
 	}
 	return nil

@@ -30,7 +30,6 @@ func (h *WebOrderHandler) CreateOrder(w http.ResponseWriter, r *http.Request) {
 
 	output, err := h.CreateOrderUseCase.Execute(r.Context(), input)
 	if err != nil {
-		// Diferenciar erros de validação (400) de erros internos (500)
 		http.Error(w, err.Error(), http.StatusInternalServerError)
 		return
 	}
@@ -49,7 +48,5 @@ func (h *WebOrderHandler) ListOrders(w http.ResponseWriter, r *http.Request) {
 
 	w.Header().Set("Content-Type", "application/json")
 	w.WriteHeader(http.StatusOK)
-	// Retornar diretamente a lista, não o DTO encapsulado se preferir
-	// json.NewEncoder(w).Encode(output.Orders)
 	json.NewEncoder(w).Encode(output)
 }

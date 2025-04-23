@@ -10,13 +10,11 @@ import (
 
 type CreateOrderUseCase struct {
 	OrderRepository repository.OrderRepository
-	// Uow             repository.Uow // Se usar Unit of Work
 }
 
-func NewCreateOrderUseCase(repo repository.OrderRepository /*, uow repository.Uow*/) *CreateOrderUseCase {
+func NewCreateOrderUseCase(repo repository.OrderRepository) *CreateOrderUseCase {
 	return &CreateOrderUseCase{
 		OrderRepository: repo,
-		// Uow:             uow,
 	}
 }
 
@@ -30,15 +28,6 @@ func (uc *CreateOrderUseCase) Execute(ctx context.Context, input dto.CreateOrder
 	if err != nil {
 		return nil, err
 	}
-
-	// Se usar UoW:
-	// err = uc.Uow.Do(ctx, func(uow *repository.Uow) error {
-	//  repo, err := uow.GetRepository(ctx, "OrderRepository")
-	//  if err != nil { return err }
-	//  err = repo.(repository.OrderRepository).Save(ctx, order)
-	//  return err
-	// })
-	// if err != nil { return nil, err }
 
 	output := &dto.OrderOutputDTO{
 		ID:         order.ID,

@@ -1,5 +1,3 @@
-# Removida a linha 'version: '3.8'' daqui
-
 services:
   app:
     build: .

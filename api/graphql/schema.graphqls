@@ -7,7 +7,6 @@ type Order {
   # updatedAt: String! # Adicionar se necessário
 }
 
-# Input para criação (para popular dados)
 input CreateOrderInput {
   price: Float!
   tax: Float!
@@ -21,5 +20,4 @@ type Mutation {
   createOrder(input: CreateOrderInput!): Order!
 }
 
-# Necessário para gqlgen
 scalar Time

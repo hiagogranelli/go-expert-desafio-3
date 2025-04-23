@@ -5,13 +5,13 @@ import (
 
 	"desafio-cleanarchitecture/internal/application/dto"
 	"desafio-cleanarchitecture/internal/application/usecase"
-	"desafio-cleanarchitecture/internal/infra/grpc/pb" // Importe o pacote gerado
+	"desafio-cleanarchitecture/internal/infra/grpc/pb"
 )
 
 type OrderGrpcService struct {
-	pb.UnimplementedOrderServiceServer // Necessário para compatibilidade futura
-	CreateOrderUseCase                 *usecase.CreateOrderUseCase
-	ListOrdersUseCase                  *usecase.ListOrdersUseCase
+	pb.UnimplementedOrderServiceServer
+	CreateOrderUseCase *usecase.CreateOrderUseCase
+	ListOrdersUseCase  *usecase.ListOrdersUseCase
 }
 
 func NewOrderGrpcService(createUC *usecase.CreateOrderUseCase, listUC *usecase.ListOrdersUseCase) *OrderGrpcService {
@@ -28,7 +28,7 @@ func (s *OrderGrpcService) CreateOrder(ctx context.Context, req *pb.CreateOrderR
 	}
 	output, err := s.CreateOrderUseCase.Execute(ctx, input)
 	if err != nil {
-		return nil, err // Considerar mapear erros para códigos gRPC
+		return nil, err
 	}
 	return &pb.CreateOrderResponse{
 		Order: &pb.Order{
@@ -43,7 +43,7 @@ func (s *OrderGrpcService) CreateOrder(ctx context.Context, req *pb.CreateOrderR
 func (s *OrderGrpcService) ListOrders(ctx context.Context, req *pb.ListOrdersRequest) (*pb.ListOrdersResponse, error) {
 	output, err := s.ListOrdersUseCase.Execute(ctx)
 	if err != nil {
-		return nil, err // Considerar mapear erros para códigos gRPC
+		return nil, err
 	}
 
 	var grpcOrders []*pb.Order
